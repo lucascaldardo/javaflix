@@ -1,4 +1,4 @@
-package javaflix.entity.repository;
+package javaflix.repository;
 
 import javaflix.entity.Categoria;
 import org.springframework.data.jpa.repository.JpaRepository;
