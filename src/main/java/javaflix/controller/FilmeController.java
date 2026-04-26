@@ -1,11 +1,36 @@
 package javaflix.controller;
 
+import javaflix.controller.request.FilmeRequest;
+import javaflix.controller.response.FilmeResponse;
+import javaflix.entity.Filme;
+import javaflix.mapper.FilmeMapper;
+import javaflix.service.FilmeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/filmeflix/filme")
+@RequestMapping("/javaflix/filme")
 @RequiredArgsConstructor
 public class FilmeController {
+
+    private final FilmeService filmeService;
+
+    @PostMapping
+    public ResponseEntity<FilmeResponse> salvar(@RequestBody FilmeRequest request){
+        Filme filmeSalvo = filmeService.salvar(FilmeMapper.toFilme(request));
+        return ResponseEntity.ok(FilmeMapper.toFilmeResponse(filmeSalvo));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<FilmeResponse>> listar(){
+        return ResponseEntity.ok(filmeService.listar()
+                .stream()
+                .map(filme -> FilmeMapper.toFilmeResponse(filme))
+                .toList());
+    }
+
+
 }

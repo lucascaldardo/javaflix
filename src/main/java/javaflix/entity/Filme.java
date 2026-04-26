@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "movie")
+@Table(name = "filme")
 public class Filme {
 
     @Id
@@ -27,10 +27,10 @@ public class Filme {
 
     private String description;
 
-    @Column(name = "realese_date")
-    private LocalDate realseDate;
+    @Column(name = "release_date")
+    private LocalDate releaseDate;
 
-    private double nota;
+    private double rating;
 
     @CreationTimestamp
     @Column(name = "created_at")
