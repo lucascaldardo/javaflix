@@ -1,11 +1,16 @@
 package javaflix.controller.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.LocalDate;
 import java.util.List;
 
 public record FilmeRequest (String titulo,
                             String description,
+
+                            @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
                             LocalDate releaseDate,
+
                             double rating,
                             List<Long> categorias,
                             List<Long> streamings

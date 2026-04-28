@@ -32,5 +32,12 @@ public class FilmeController {
                 .toList());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<FilmeResponse> listarPorId(@PathVariable Long id){
+       return filmeService.listarPorId(id)
+               .map(filme -> ResponseEntity.ok(FilmeMapper.toFilmeResponse(filme)))
+               .orElse(ResponseEntity.notFound().build());
+
+    }
 
 }
