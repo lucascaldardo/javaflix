@@ -19,12 +19,6 @@ public class FilmeService {
     private final CategoriaService categoriaService;
     private final StreamingService streamingService;
 
-    public Filme salvar(Filme filme){
-        filme.setCategorias(this.acharCategorias(filme.getCategorias()));
-        filme.setStreamings(this.acharStreaming(filme.getStreamings()));
-        return repository.save(filme);
-    }
-
     public List<Filme> listar(){
         return repository.findAll();
     }
@@ -33,16 +27,57 @@ public class FilmeService {
         return repository.findById(id);
     }
 
-    private List<Categoria> acharCategorias(List<Categoria> categorias) {
-        List<Categoria> categoriasAchadas = new ArrayList<>();
-        categorias.forEach(categoria -> categoriaService.listarPorId(categoria.getId()).ifPresent(categoriasAchadas::add));
-            return categoriasAchadas;
+    public List<Filme> listarPorCategoria(Long categoriaId) {
+        return repository.findByCategoriasIn(List.of(Categoria.builder().id(categoriaId).build()));
     }
 
-    private List<Streaming> acharStreaming(List<Streaming> streamings) {
+    public Filme salvar(Filme filme){
+        filme.setCategorias(this.listarCategorias(filme.getCategorias()));
+        filme.setStreamings(this.listarStreaming(filme.getStreamings()));
+        return repository.save(filme);
+    }
+
+    public Optional<Filme> atualizar(Long filmeId,Filme filmeAtualizado){
+        Optional<Filme> optFilme = listarPorId(filmeId);
+
+        if (optFilme.isPresent()){
+            List<Categoria> categorias = this.listarCategorias(filmeAtualizado.getCategorias());
+            List<Streaming> streaming = this.listarStreaming(filmeAtualizado.getStreamings());
+
+            Filme filme = optFilme.get();
+            filme.setTitulo(filmeAtualizado.getTitulo());
+            filme.setDescription(filmeAtualizado.getDescription());
+            filme.setRating(filmeAtualizado.getRating());
+            filme.setReleaseDate(filmeAtualizado.getReleaseDate());
+
+            filme.getCategorias().clear();
+            filme.getCategorias().addAll(categorias);
+
+            filme.getStreamings().clear();
+            filme.getStreamings().addAll(streaming);
+
+            repository.save(filme);
+
+            return Optional.of(filme);
+        }
+
+        return Optional.empty();
+    }
+
+    public void deletarPorId(Long filmeId){
+        repository.deleteById(filmeId);
+
+    }
+    private List<Streaming> listarStreaming(List<Streaming> streamings) {
         List<Streaming> streamingsAchados = new ArrayList<>();
         streamings.forEach(streaming -> streamingService.listarPorId(streaming.getId()).ifPresent(streamingsAchados::add));
         return streamingsAchados;
+    }
+
+    private List<Categoria> listarCategorias(List<Categoria> categorias) {
+        List<Categoria> categoriasAchadas = new ArrayList<>();
+        categorias.forEach(categoria -> categoriaService.listarPorId(categoria.getId()).ifPresent(categoriasAchadas::add));
+        return categoriasAchadas;
     }
 }
 
