@@ -16,6 +16,6 @@ spring:
   flyway:
     enabled: true
 
-javaflix:
+flix:
   security:
     secret: ${SECRET}

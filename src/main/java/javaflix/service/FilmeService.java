@@ -1,10 +1,12 @@
 package javaflix.service;
 
+import javaflix.config.JWTUserData;
 import javaflix.entity.Categoria;
 import javaflix.entity.Filme;
 import javaflix.entity.Streaming;
 import javaflix.repository.FilmeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -43,6 +45,7 @@ public class FilmeService {
         if (optFilme.isPresent()){
             List<Categoria> categorias = this.listarCategorias(filmeAtualizado.getCategorias());
             List<Streaming> streaming = this.listarStreaming(filmeAtualizado.getStreamings());
+
 
             Filme filme = optFilme.get();
             filme.setTitulo(filmeAtualizado.getTitulo());
