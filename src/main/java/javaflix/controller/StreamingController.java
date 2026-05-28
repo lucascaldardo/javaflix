@@ -1,5 +1,6 @@
 package javaflix.controller;
 
+import jakarta.validation.Valid;
 import javaflix.controller.request.CategoriaRequest;
 import javaflix.controller.request.StreamingRequest;
 import javaflix.controller.response.CategoriaResponse;
@@ -31,7 +32,7 @@ public class StreamingController {
     }
 
     @PostMapping
-    public ResponseEntity<StreamingResponse> criarStreaming(@RequestBody StreamingRequest request){
+    public ResponseEntity<StreamingResponse> criarStreaming(@Valid @RequestBody StreamingRequest request){
         Streaming newStreaming = StreamingMapper.toStreaming(request);
         Streaming savedStreaming = streamingService.criarStreaming(newStreaming);
         return ResponseEntity.status(HttpStatus.CREATED).body(StreamingMapper.toStreamingResponse(savedStreaming));

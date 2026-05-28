@@ -1,5 +1,6 @@
 package javaflix.controller;
 
+import jakarta.validation.Valid;
 import javaflix.controller.request.CategoriaRequest;
 import javaflix.controller.response.CategoriaResponse;
 import javaflix.entity.Categoria;
@@ -30,7 +31,7 @@ public class CategoriaController {
     }
 
     @PostMapping
-    public ResponseEntity<CategoriaResponse> criarCategoria(@RequestBody CategoriaRequest request){
+    public ResponseEntity<CategoriaResponse> criarCategoria(@Valid @RequestBody CategoriaRequest request){
         Categoria newCategoria = CategoriaMapper.toCategoria(request);
         Categoria savedCategoria = categoriaService.criarCategoria(newCategoria);
         return ResponseEntity.status(HttpStatus.CREATED).body(CategoriaMapper.toCategoriaResponse(savedCategoria));

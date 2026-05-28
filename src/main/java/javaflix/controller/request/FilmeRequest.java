@@ -1,11 +1,12 @@
 package javaflix.controller.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public record FilmeRequest (String titulo,
+public record FilmeRequest (@NotEmpty(message = "Nome do Filme é Obrigatório.")String titulo,
                             String description,
 
                             @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")

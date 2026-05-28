@@ -1,5 +1,6 @@
 package javaflix.controller;
 
+import jakarta.validation.Valid;
 import javaflix.controller.request.FilmeRequest;
 import javaflix.controller.response.FilmeResponse;
 import javaflix.entity.Filme;
@@ -21,7 +22,7 @@ public class FilmeController {
     private final FilmeService filmeService;
 
     @PostMapping
-    public ResponseEntity<FilmeResponse> salvar(@RequestBody FilmeRequest request){
+    public ResponseEntity<FilmeResponse> salvar(@Valid @RequestBody FilmeRequest request){
         Filme filmeSalvo = filmeService.salvar(FilmeMapper.toFilme(request));
         return ResponseEntity.ok(FilmeMapper.toFilmeResponse(filmeSalvo));
     }
@@ -42,7 +43,7 @@ public class FilmeController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<FilmeResponse> atualizar(@RequestBody FilmeRequest request, @PathVariable Long id){
+    public ResponseEntity<FilmeResponse> atualizar(@PathVariable Long id, @Valid @RequestBody FilmeRequest request){
         return filmeService.atualizar(id, FilmeMapper.toFilme(request))
                 .map(filme -> ResponseEntity.ok(FilmeMapper.toFilmeResponse(filme)))
                 .orElse(ResponseEntity.notFound().build());
