@@ -150,8 +150,8 @@ A documentação interativa completa (Swagger UI) está disponível em:
 
 | Método | Rota | Autenticação | Descrição |
 |---|---|---|---|
-| `POST` | `/auth/login` | ❌ Pública | Autentica um usuário e retorna o token JWT. |
-| `POST` | `/auth/register` | ❌ Pública | Cadastra um novo usuário na plataforma. |
+| `POST` | `/autenticacao/login` | ❌ Pública | Autentica um usuário e retorna o token JWT. |
+| `POST` | `/autenticacao/registrar` | ❌ Pública | Cadastra um novo usuário na plataforma. |
 
 ### Filmes
 
@@ -185,7 +185,7 @@ A documentação interativa completa (Swagger UI) está disponível em:
 
 ## 🔐 Fluxo de Autenticação
 
-1. O cliente envia `POST /auth/login` com as credenciais (usuário e senha).
+1. O cliente envia `POST /autenticacao/login` com as credenciais (usuário e senha).
 2. A API valida as credenciais e retorna um **token JWT**.
 3. Para acessar rotas protegidas, o cliente inclui o token no header:
    ```
